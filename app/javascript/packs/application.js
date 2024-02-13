@@ -34,8 +34,8 @@ Chartkick.options = {
           else if (this.y === 2)  {return "💩"}
           else if (this.y === 3)  {return "😡"}
           else if (this.y === 4)  {return "😐"}
-          else if (this.y === 5)  {return "☺️"}
-          else if (this.y === 5)  {return "😀"}
+          else if (this.y === 5)  {return "😊"}
+          else if (this.y === 6)  {return "😀"}
           },
         style: {
           fontFamily: 'Montserrat',

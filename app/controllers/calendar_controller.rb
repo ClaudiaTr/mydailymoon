@@ -32,8 +32,9 @@ class CalendarController < ApplicationController
   end
 
   def api_call(start_date, end_date)
-    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=#{ENV["VISUALCROSSING_KEY"]}&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
-    data_serialized = URI.open(url).read
+    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Lisboa,Portugal/#{start_date}/#{end_date}?key=ENV['VISUALCROSSING_KEY']&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
+    data_serialized = URI.open(url,
+      "User-Agent" => "").read
     data = JSON.parse(data_serialized)
     moon_data = data["days"]
     @timezone = data["timezone"]
@@ -113,19 +114,39 @@ class CalendarController < ApplicationController
 
   def fetch_daily_horoscope(day)
     # https://github.com/sameerkumar18/aztro
-    uri = URI.parse("https://aztro.sameerkumar.website/?sign=#{current_user.zodiac_sign}&day=#{day}")
-    request = Net::HTTP::Post.new(uri)
+    # uri = URI.parse("https://aztro.sameerkumar.website/?sign=#{current_user.zodiac_sign}&day=#{day}")
+    # request = Net::HTTP.get(uri)
 
-    req_options = {
-      use_ssl: uri.scheme == "https",
+    # req_options = {
+    #   use_ssl: uri.scheme == "https",
+    # }
+
+    # response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    #   http.request(request)
+    # end
+
+    # your_day = JSON.parse(response.body.gsub('=>', ':'))
+    # @daily_horoscope = your_day["description"]
+
+    signs = {
+      "aries" => 1,
+      "taurus" => 2,
+      "gemini" => 3,
+      "cancer" => 4,
+      "leo" => 5,
+      "virgo" => 6,
+      "libra" => 7,
+      "scorpio" => 8,
+      "sagittarius" => 9,
+      "capricorn" => 10,
+      "aquarius" => 11,
+      "pisces" => 12,
     }
 
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
-
-    your_day = JSON.parse response.body.gsub('=>', ':')
-    @daily_horoscope = your_day["description"]
+    url = "https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-#{day}.aspx?sign=#{signs[current_user.zodiac_sign.downcase]}"
+    html_file = URI.open(url).read
+    html_doc = Nokogiri::HTML.parse(html_file)
+    @daily_horoscope = html_doc.css(".main-horoscope p").first.text.match(/.-.(.*)\./).to_s.delete_prefix(" - ")
   end
 end
 
