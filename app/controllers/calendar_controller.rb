@@ -32,7 +32,8 @@ class CalendarController < ApplicationController
   end
 
   def api_call(start_date, end_date)
-    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Lisboa,Portugal/#{start_date}/#{end_date}?key=ENV['VISUALCROSSING_KEY']&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
+    # url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=ENV['VISUALCROSSING_KEY']&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
+    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=FTZ5BKMXATN4FZ3RAF5PS5RN5&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
     data_serialized = URI.open(url,
       "User-Agent" => "").read
     data = JSON.parse(data_serialized)
@@ -149,94 +150,3 @@ class CalendarController < ApplicationController
     @daily_horoscope = html_doc.css(".main-horoscope p").first.text.match(/.-.(.*)\./).to_s.delete_prefix(" - ")
   end
 end
-
-# def fetch_moon_sign_with_api(day)
-#   @url = 'https://json.astrologyapi.com/v1/planets'
-#   @result = HTTParty.post(@url,
-#     :body => { :day => day.to_date.day,
-#                :month => day.to_date.month,
-#                :year => day.to_date.year,
-#                :min => Time.now.min,
-#                :hour => Time.now.hour,
-#                :tzone => 1,
-#                :lat => 41.3926679,
-#                :lon => 2.1401891
-#              }.to_json,
-#     :headers => { 'Content-Type' => 'application/json' },
-#     :basic_auth => {:username => "#{ENV["ASTRO_API_USERNAME"]}", :password => "#{ENV["ASTRO_API_KEY"]}"} )
-#     moon = @result.find { |result| result["name"] == "Moon"}
-#     @moon_sign = moon["sign"]
-# end
-
-# def read_json
-#   if params[:start_date] == nil
-#     start_date = Time.now.beginning_of_month.strftime("%Y-%m-%d")
-#   else
-#     start_date = params[:start_date]
-#   end
-#   # fetch_moon_data
-#   #contains treated data from fetch_moon_data from May to end of December
-#   file = "./db/export/moons_may_dec.json"
-#   json_file_content = File.read(file)
-#   if json_file_content != ''
-#     moons = JSON.parse(File.read(file))
-#     @current_month_moons = []
-#     moons.each do |moon|
-#       tmp_moon_month = moon["date"].split('-')[1]
-#       if tmp_moon_month == start_date.split('-')[1]
-#         # @current_month_moons.append([moon["moon_phase_name"],moon["moon_phase_img"]])
-#         @current_month_moons.append(moon)
-#       end
-#     end
-#     return @current_month_moons
-#   else
-#     puts "No moons saved in json file"
-#   end
-#   ActiveRecord::Base.connection.reset_pk_sequence!(table_name)
-# end
-
-#Fetches data from the API and saves Moons in the DB
-# def fetch_moon_data
-
-#     start_date = "2022-05-01"
-#     end_date = "2022-12-31"
-#     url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=#{ENV["VISUALCROSSING_KEY"]}&include=days&elements=datetime,moonphase"
-#     data_serialized = URI.open(url).read
-#     @data = JSON.parse(data_serialized)
-#     @moon_data = @data["days"]
-
-#     if start_date.to_date <= Date.today
-#       @moon_data.each do |md|
-#         moon_phase_name_resolved, moon_phase_img_resolved = get_moon_phase_name(md["moonphase"].to_f)
-#         if md["moonset"] == nil
-#           moonset = "No moonset today"
-#         else
-#           moonset = md["moonset"]
-#         end
-#         moonrise = md["moonrise"]
-#         Moon.create(phase: @moon_phase, moon_phase_name: moon_phase_name_resolved, moon_phase_img: moon_phase_img_resolved, date: md["datetime"], moonrise: moonrise, moonset: moonset, location: @data["address"], display_location: @data["resolvedAddress"])
-#       end
-#     end
-#   end
-
-# # Gets moonphase value from the API and returns and array with 2 postions(moonphase_name, moonphase_img) based on value
-
-# def get_moon_phase_name(value)
-#   if value == 0 || value == 1
-#     return ["New Moon", "/assets/moon1new.png"]
-#   elsif value < 0.25
-#     return ["Waxing Crescent", "/assets/moon2waxingcrescent.png"]
-#   elsif value == 0.25
-#     return [ "First Quarter", "/assets/moon3firstquarter.png"]
-#   elsif value < 0.5
-#     return ["Waxing Gibbous", "/assets/moon4waxinggibbous.png"]
-#   elsif value == 0.5
-#     return ["Full Moon", "/assets/moon5full.png"]
-#   elsif value < 0.75
-#     return ["Waning Gibbous", "/assets/moon6waninggibbous.png"]
-#   elsif value == 0.75
-#     return ["Last Quarter", "/assets/moon7lastquarter.png"]
-#   else value < 1
-#     return ["Waning Crescent", "/assets/moon8waningcrescent.png"]
-#   end
-# end
