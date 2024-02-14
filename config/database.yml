@@ -79,12 +79,17 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
+# # FOR DEPLOYMENT ON HEROKU (password to be added to .env file)
 # production:
 #   <<: *default
 #   database: dailymoon_production
 #   username: dailymoon
   # password: <%= ENV['DAILYMOON_DATABASE_PASSWORD'] %>
 
+# # FOR DEPLOYMENT ON RENDER
+
+# FOR DEPLOYMENT ON KOYEB
 production:
   adapter: postgresql
   url: <%= ENV['DATABASE_URL'] =%>
