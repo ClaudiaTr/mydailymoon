@@ -83,4 +83,8 @@ production:
   <<: *default
   database: dailymoon_production
   username: dailymoon
-  password: <%= ENV['DAILYMOON_DATABASE_PASSWORD'] %>
+  # password: <%= ENV['DAILYMOON_DATABASE_PASSWORD'] %>
+
+# production:
+#   adapter: postgresql
+#   url: <%= ENV['DATABASE_URL'] =%>
