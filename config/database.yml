@@ -79,12 +79,12 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-production:
-  <<: *default
-  database: dailymoon_production
-  username: dailymoon
+# production:
+#   <<: *default
+#   database: dailymoon_production
+#   username: dailymoon
   # password: <%= ENV['DAILYMOON_DATABASE_PASSWORD'] %>
 
-# production:
-#   adapter: postgresql
-#   url: <%= ENV['DATABASE_URL'] =%>
+production:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] =%>
