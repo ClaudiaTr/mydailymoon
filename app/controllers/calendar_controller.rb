@@ -114,21 +114,6 @@ class CalendarController < ApplicationController
   end
 
   def fetch_daily_horoscope(day)
-    # https://github.com/sameerkumar18/aztro
-    # uri = URI.parse("https://aztro.sameerkumar.website/?sign=#{current_user.zodiac_sign}&day=#{day}")
-    # request = Net::HTTP.get(uri)
-
-    # req_options = {
-    #   use_ssl: uri.scheme == "https",
-    # }
-
-    # response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-    #   http.request(request)
-    # end
-
-    # your_day = JSON.parse(response.body.gsub('=>', ':'))
-    # @daily_horoscope = your_day["description"]
-
     signs = {
       "aries" => 1,
       "taurus" => 2,
