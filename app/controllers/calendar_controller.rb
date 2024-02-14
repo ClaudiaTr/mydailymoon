@@ -32,8 +32,7 @@ class CalendarController < ApplicationController
   end
 
   def api_call(start_date, end_date)
-    # url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=ENV['VISUALCROSSING_KEY']&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
-    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=FTZ5BKMXATN4FZ3RAF5PS5RN5&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
+    url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/#{current_user.location.delete(' ')}/#{start_date}/#{end_date}?key=#{ENV['VISUALCROSSING_KEY']}&include=days&elements=datetime,moonphase,sunrise,sunset,moonrise,moonset"
     data_serialized = URI.open(url,
       "User-Agent" => "").read
     data = JSON.parse(data_serialized)
