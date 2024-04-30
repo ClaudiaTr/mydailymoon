@@ -27,7 +27,8 @@
     "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build"
   },
   "engines": {
-    "node": "20.12.2",
-    "yarn": "1.22.22"
-  }
+    "node": "20.9.0",
+    "yarn": "1.22.19"
+  },
+  "packageManager": "yarn@1.22.19"
 }
