@@ -25,7 +25,7 @@
     <div data-mood-target="output">
       <%= p.button :submit, "Submit Mood",
                   class: "btn-gradient my-3",
-                  disabled: true %>
+                  disabled: false %>
     </div>
   <% end %>
   <%= link_to "Cancel", mood_path(date: (params[:date])) if action_name == "edit"%>

@@ -10,7 +10,7 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = [ "output" ];
+  static targets = ["output"];
 
   connect() {
     // console.log("The 'mood' controller is now loaded!");
